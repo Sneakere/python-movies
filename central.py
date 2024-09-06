@@ -16,24 +16,26 @@ def cargar_datos(lineas_archivo):
     generos_spliteados2 = []
     for generos in generos_spliteados:
         for genero in generos:
-
-            # titulo = []
-            # popularidad = []
-            # voto_promedio = []
-            # cantidad_votos = []
-            # generos = []
-            # for linea in lineas_archivo:
-            #     datos_peliculas.append(linea.split(","))
-            # for pelicula in datos_peliculas:
-            #     titulo.append(pelicula[0])
-            # for nota in datos_peliculas:
-            #     popularidad.append(nota[1])
-            # for votopromedio in datos_peliculas:
-            #     voto_promedio.append(votopromedio[2])
-            # for cantidadvotos in datos_peliculas:
-            #     cantidad_votos.append(cantidadvotos[3])
-            # for genero in datos_peliculas:
-            #     generos.append(genero[4])
+            generos_spliteados2.append(genero)
+    generos_peliculas = list(set(generos_spliteados2))
+    print(generos_peliculas)
+    # titulo = []
+    # popularidad = []
+    # voto_promedio = []
+    # cantidad_votos = []
+    # generos = []
+    # for linea in lineas_archivo:
+    #     datos_peliculas.append(linea.split(","))
+    # for pelicula in datos_peliculas:
+    #     titulo.append(pelicula[0])
+    # for nota in datos_peliculas:
+    #     popularidad.append(nota[1])
+    # for votopromedio in datos_peliculas:
+    #     voto_promedio.append(votopromedio[2])
+    # for cantidadvotos in datos_peliculas:
+    #     cantidad_votos.append(cantidadvotos[3])
+    # for genero in datos_peliculas:
+    #     generos.append(genero[4])
 
 
 print(cargar_datos)
