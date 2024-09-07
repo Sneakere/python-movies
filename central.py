@@ -14,6 +14,7 @@ def cargar_datos(lineas_archivo):
     generos_spliteados = []
     for generos in genero_peliculas:
         generos_spliteados.append(generos.split(";"))
+    # print(generos_spliteados)
     generos_spliteados2 = []
     # Crear una lista con los distintos generos de peliculas sin repetir
     for generos in generos_spliteados:
@@ -39,76 +40,15 @@ def cargar_datos(lineas_archivo):
     peliculas_por_genero = [(genero, pelicula)  # ENUNCIADO
                             for genero, pelicula in listas_generos.items()]
 
-    # popularidad = []
-    # votos_promedio = []
-    # cantidad_votos = []
-    # for nota in datos_peliculas:
-    #     popularidad.append(nota[1])
-    # for votos in datos_peliculas:
-    #     votos_promedio.append(votos[2])
-    # for cantidad in datos_peliculas:
-    #     cantidad_votos.append(cantidad[3])
+    info_peliculas = [
+        (pelicula, popularidad, votos_promedio, numero_votos, generos)
+        for (pelicula, popularidad, votos_promedio, numero_votos, _), generos in zip(datos_peliculas, generos_spliteados)
+    ]
 
-    # return peliculas_por_genero, generos_peliculas
+    return peliculas_por_genero, generos_peliculas, info_peliculas
 
 
 print(cargar_datos)
-# for pelicula, genero in dict_pelicula_generos.items():
-#     for genero in generos_peliculas:
-
-# if "Drama" in genero:
-#     drama_list.append(pelicula)
-# elif "Comedy" in genero:
-#     comedy_list.append(pelicula)
-# elif "Adventure" in genero:
-#     adventure_list.append(pelicula)
-# elif "Music" in genero:
-#     music_list.append(pelicula)
-# elif "Fantasy" in genero:
-#     fantasy_list.append(pelicula)
-# elif "Action" in genero:
-#     action_list.append(pelicula)
-# elif "History" in genero:
-#     history_list.append(pelicula)
-# elif "Animation" in genero:
-#     animation_list.append(pelicula)
-# elif "Thriller" in genero:
-#     thriller_list.append(pelicula)
-# elif "Romance" in genero:
-#     romance_list.append(pelicula)
-# elif "Family" in genero:
-#     family_list.append(pelicula)
-# elif "Western" in genero:
-#     western_list.append(pelicula)
-# elif "Horror" in genero:
-#     horror_list.append(pelicula)
-# elif "Mystery" in genero:
-#     mystery_list.append(pelicula)
-# elif "War" in genero:
-#     war_list.append(pelicula)
-# elif "Science Fiction" in genero:
-#     science_fiction_list.append(pelicula)
-# elif "Crime" in genero:
-#     crime_list.append(pelicula)
-
-# print(adventure_list)
-
-# titulo = []
-# popularidad = []
-# voto_promedio = []
-# cantidad_votos = []
-# generos = []
-# for linea in lineas_archivo:
-#     datos_peliculas.append(linea.split(","))
-# for nota in datos_peliculas:
-#     popularidad.append(nota[1])
-# for votopromedio in datos_peliculas:
-#     voto_promedio.append(votopromedio[2])
-# for cantidadvotos in datos_peliculas:
-#     cantidad_votos.append(cantidadvotos[3])
-# for genero in datos_peliculas:
-#     generos.append(genero[4])
-
 # Parte 2: Completar las consultas
 
 
