@@ -1,5 +1,19 @@
+def obtener_puntaje_y_votos(nombre_pelicula):
+    # Cargar las lineas con la data del archivo
+    lineas_peliculas = []
+    with open("movies.csv", "r", encoding="utf-8") as datos:
+        for linea in datos.readlines()[1:]:
+            lineas_peliculas.append(linea.strip().split(","))
+    for linea in lineas_peliculas:
+        if nombre_pelicula == linea[0]:
+            return (linea[2], linea[3])
+
+
+print(obtener_puntaje_y_votos("Shrek"))
 
 # Parte 1: Cargar los datos
+
+
 def cargar_datos(lineas_archivo):
     datos_peliculas = []
     # Ordenar las lineas en peliculas y sus datos
@@ -42,20 +56,23 @@ def cargar_datos(lineas_archivo):
 
     info_peliculas = [
         (pelicula, popularidad, votos_promedio, numero_votos, generos)
-        for (pelicula, popularidad, votos_promedio, numero_votos, _), generos in zip(datos_peliculas, generos_spliteados)
-    ]
+        for (pelicula, popularidad, votos_promedio, numero_votos, generosinsplit), generos in zip(datos_peliculas, generos_spliteados)
+    ]  # ENUNCIADO
 
-    return peliculas_por_genero, generos_peliculas, info_peliculas
+    return (generos_peliculas, peliculas_por_genero, info_peliculas)
 
 
-print(cargar_datos)
 # Parte 2: Completar las consultas
-
 
 def obtener_puntaje_y_votos(nombre_pelicula):
     # Cargar las lineas con la data del archivo
-    lineas_archivo = leer_archivo()
-    pass
+    lineas_peliculas = []
+    with open("movies.csv", "r", encoding="utf-8") as datos:
+        for linea in datos.readlines()[1:]:
+            lineas_peliculas.append(linea.strip().split(","))
+    for linea in lineas_peliculas:
+        if nombre_pelicula == linea[0]:
+            return (linea[2], linea[3])
 
 
 def filtrar_y_ordenar(genero_pelicula):
