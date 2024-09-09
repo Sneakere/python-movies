@@ -3,11 +3,12 @@
 
 
 def cargar_datos(lineas_archivo):
-
+    # Inicializar estructuras solicitados por el enunciado:
     generos_peliculas = []
     peliculas_por_genero = {}
     info_peliculas = []
     peliculas_por_genero2 = []
+    # Iterar por cada linea de lineas archivo y asignar los valores a variables
     for fila in lineas_archivo:
         fila = fila.split(",")
         pelicula = fila[0]
@@ -15,12 +16,17 @@ def cargar_datos(lineas_archivo):
         voto_promedio = fila[2]
         cantidad_votos = fila[3]
         generos = fila[4].split(";")
+        # Iterar por cada genero dentro de la variables generos
         for genero in generos:
+            # Si genero no esta en generos_peliculas = [], lo agrega a la lista
             if genero not in generos_peliculas:
                 generos_peliculas.append(genero)
+            # Si genero no esta en el diccionario peliculas_por_genero = {} lo agrega, utilizando de indice el mismo genero encontrado
             if genero not in peliculas_por_genero:
                 peliculas_por_genero[genero] = []
+            # Agrega la pelicula correspondiente a cada genero en el diccionario creado anteriormente
             peliculas_por_genero[genero].append(pelicula)
+        # Se crea la lista info_peliculas con los datos solicitados
         info_peliculas.append([
             pelicula,
             popularidad,
@@ -28,10 +34,12 @@ def cargar_datos(lineas_archivo):
             cantidad_votos,
             generos
         ])
+    # Se transforma la lista info_peliculas en una lista de tuplas como se solicita
+    info_peliculas = [tuple(pelicula) for pelicula in info_peliculas]
+    # Se transforma peliculas_por_genero en una lista de tuplas a partir de un ciclo for que itera en el diccionario creado antes
     for pelicula, genero in peliculas_por_genero.items():
         peliculas_por_genero2.append((pelicula, genero))
-    info_peliculas = [tuple(pelicula) for pelicula in info_peliculas]
-    print(peliculas_por_genero2)
+    # con return, se entregan las estructuras solicitadas
     return generos_peliculas, peliculas_por_genero2, info_peliculas
 
 
@@ -44,12 +52,12 @@ def obtener_puntaje_y_votos(nombre_pelicula):
     for fila in lineas_archivo:
         fila = fila.split(",")
         pelicula = fila[0]
-        popularidad = fila[1]
         voto_promedio = fila[2]
         cantidad_votos = fila[3]
-        generos = fila[4].split(";")
+        # Si la variable asignada a la funcion es igual a la variable pelicula, se guarda su voto promedio y cantidad de votos en una tupla
         if nombre_pelicula == pelicula:
             puntaje_y_votos = (voto_promedio, cantidad_votos)
+    # Se entrega la tupla creada
     return puntaje_y_votos
 
 
@@ -69,10 +77,14 @@ def filtrar_y_ordenar(genero_pelicula):
             if genero not in peliculas_por_genero:
                 peliculas_por_genero[genero] = []
             peliculas_por_genero[genero].append(pelicula)
+    # Se recorre el diccionario peliculas_por_genero
     for genero, peliculas in peliculas_por_genero.items():
+        # Si el genero es igual al argumento entregado en la funcion, se agrega la lista peliculas_segun_genero
         if genero == genero_pelicula:
             peliculas_segun_genero.extend(peliculas)
+    # Se reordena segun lo solicitado
     peliculas_segun_genero = sorted(peliculas_segun_genero, reverse=True)
+    # Devuelve la lista generada
     return peliculas_segun_genero
 
 
@@ -91,6 +103,7 @@ def obtener_estadisticas(genero_pelicula, criterio):
         cantidad_votos = float(fila[3])
         generos = fila[4].split(";")
 
+        # Agrega a una lista todos los valores de un genero segun criterio
         if genero_pelicula in generos:
             lista_popularidad.append(popularidad)
             lista_voto_promedio.append(voto_promedio)
