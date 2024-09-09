@@ -1,95 +1,122 @@
-def obtener_puntaje_y_votos(nombre_pelicula):
-    # Cargar las lineas con la data del archivo
-    lineas_peliculas = []
-    with open("movies.csv", "r", encoding="utf-8") as datos:
-        for linea in datos.readlines()[1:]:
-            lineas_peliculas.append(linea.strip().split(","))
-    for linea in lineas_peliculas:
-        if nombre_pelicula == linea[0]:
-            return (linea[2], linea[3])
-
-
-print(obtener_puntaje_y_votos("Shrek"))
 
 # Parte 1: Cargar los datos
 
 
 def cargar_datos(lineas_archivo):
-    datos_peliculas = []
-    # Ordenar las lineas en peliculas y sus datos
-    for linea in lineas_archivo:
-        datos_peliculas.append(linea.split(","))
-    # print(datos_peliculas)
-    # Crear una lista con todos los generos de peliculas
-    genero_peliculas = []
-    for pelicula in datos_peliculas:
-        genero_peliculas.append(pelicula[4])
-    # Quitar separacion (;) a las listas de generos creadas
-    generos_spliteados = []
-    for generos in genero_peliculas:
-        generos_spliteados.append(generos.split(";"))
-    # print(generos_spliteados)
-    generos_spliteados2 = []
-    # Crear una lista con los distintos generos de peliculas sin repetir
-    for generos in generos_spliteados:
-        for genero in generos:
-            generos_spliteados2.append(genero)
-    generos_peliculas = list(set(generos_spliteados2))  # ENUNCIADO
-    # ['Drama', 'Comedy', 'Adventure', 'Music', 'Fantasy', 'Action', 'History', 'Animation', 'Thriller', 'Romance', 'Family', 'Western', 'Horror', 'Mystery', 'War', 'Science Fiction', 'Crime']
-    # Crear un diccionario con peliculas y sus respectivos generos:
-    # Crear una lista con todas las peliculas
-    nombre_peliculas = []
-    for pelicula in datos_peliculas:
-        nombre_peliculas.append(pelicula[0])
-    # Crear el diccionario
-    listas_generos = {f"{genero.replace(' ', '_')}": []
-                      for genero in generos_peliculas}
-    dict_pelicula_generos = dict(zip(nombre_peliculas, generos_spliteados))
-    # print(dict_pelicula_generos)
-    for pelicula, generos in dict_pelicula_generos.items():
-        for genero in generos:
-            genero_key = f"{genero.replace(' ', '_')}"
-            if genero_key in listas_generos:
-                listas_generos[genero_key].append(pelicula)
-    peliculas_por_genero = [(genero, pelicula)  # ENUNCIADO
-                            for genero, pelicula in listas_generos.items()]
 
-    info_peliculas = [
-        (pelicula, popularidad, votos_promedio, numero_votos, generos)
-        for (pelicula, popularidad, votos_promedio, numero_votos, generosinsplit), generos in zip(datos_peliculas, generos_spliteados)
-    ]  # ENUNCIADO
-
-    return (generos_peliculas, peliculas_por_genero, info_peliculas)
+    generos_peliculas = []
+    peliculas_por_genero = {}
+    info_peliculas = []
+    peliculas_por_genero2 = []
+    for fila in lineas_archivo:
+        fila = fila.split(",")
+        pelicula = fila[0]
+        popularidad = fila[1]
+        voto_promedio = fila[2]
+        cantidad_votos = fila[3]
+        generos = fila[4].split(";")
+        for genero in generos:
+            if genero not in generos_peliculas:
+                generos_peliculas.append(genero)
+            if genero not in peliculas_por_genero:
+                peliculas_por_genero[genero] = []
+            peliculas_por_genero[genero].append(pelicula)
+        info_peliculas.append([
+            pelicula,
+            popularidad,
+            voto_promedio,
+            cantidad_votos,
+            generos
+        ])
+    for pelicula, genero in peliculas_por_genero.items():
+        peliculas_por_genero2.append((pelicula, genero))
+    info_peliculas = [tuple(pelicula) for pelicula in info_peliculas]
+    print(peliculas_por_genero2)
+    return generos_peliculas, peliculas_por_genero2, info_peliculas
 
 
 # Parte 2: Completar las consultas
 
+
 def obtener_puntaje_y_votos(nombre_pelicula):
     # Cargar las lineas con la data del archivo
-    lineas_peliculas = []
-    with open("movies.csv", "r", encoding="utf-8") as datos:
-        for linea in datos.readlines()[1:]:
-            lineas_peliculas.append(linea.strip().split(","))
-    for linea in lineas_peliculas:
-        if nombre_pelicula == linea[0]:
-            return (linea[2], linea[3])
+    lineas_archivo = leer_archivo()
+    for fila in lineas_archivo:
+        fila = fila.split(",")
+        pelicula = fila[0]
+        popularidad = fila[1]
+        voto_promedio = fila[2]
+        cantidad_votos = fila[3]
+        generos = fila[4].split(";")
+        if nombre_pelicula == pelicula:
+            puntaje_y_votos = (voto_promedio, cantidad_votos)
+    return puntaje_y_votos
 
 
 def filtrar_y_ordenar(genero_pelicula):
     # Cargar las lineas con la data del archivo
     lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí
-    pass
+    peliculas_por_genero = {}
+    generos_peliculas = []
+    peliculas_segun_genero = []
+    for fila in lineas_archivo:
+        fila = fila.split(",")
+        pelicula = fila[0]
+        generos = fila[4].split(";")
+        for genero in generos:
+            if genero not in generos_peliculas:
+                generos_peliculas.append(genero)
+            if genero not in peliculas_por_genero:
+                peliculas_por_genero[genero] = []
+            peliculas_por_genero[genero].append(pelicula)
+    for genero, peliculas in peliculas_por_genero.items():
+        if genero == genero_pelicula:
+            peliculas_segun_genero.extend(peliculas)
+    peliculas_segun_genero = sorted(peliculas_segun_genero, reverse=True)
+    return peliculas_segun_genero
 
 
 def obtener_estadisticas(genero_pelicula, criterio):
-    # Cargar las lineas con la data del archivo
+
     lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí
-    pass
+    estadisticas = []
+    lista_popularidad = []
+    lista_voto_promedio = []
+    lista_cantidad_votos = []
 
+    for fila in lineas_archivo:
+        fila = fila.split(",")
+        popularidad = float(fila[1])
+        voto_promedio = float(fila[2])
+        cantidad_votos = float(fila[3])
+        generos = fila[4].split(";")
 
-# NO ES NECESARIO MODIFICAR DESDE AQUI HACIA ABAJO
+        if genero_pelicula in generos:
+            lista_popularidad.append(popularidad)
+            lista_voto_promedio.append(voto_promedio)
+            lista_cantidad_votos.append(cantidad_votos)
+
+    if criterio == "popularidad":
+        maximo = max(lista_popularidad)
+        minimo = min(lista_popularidad)
+        promedio = sum(lista_popularidad)/len(lista_popularidad)
+        estadisticas.extend([maximo, minimo, promedio])
+        return estadisticas
+    elif criterio == "voto promedio":
+        maximo = max(lista_voto_promedio)
+        minimo = min(lista_voto_promedio)
+        promedio = sum(lista_voto_promedio)/len(lista_voto_promedio)
+        estadisticas.extend([maximo, minimo, promedio])
+        return estadisticas
+    else:
+        maximo = max(lista_cantidad_votos)
+        minimo = min(lista_cantidad_votos)
+        promedio = sum(lista_cantidad_votos)/len(lista_cantidad_votos)
+        estadisticas.extend([maximo, minimo, promedio])
+        return estadisticas
+
+    # NO ES NECESARIO MODIFICAR DESDE AQUI HACIA ABAJO
+
 
 def solicitar_accion():
     print("\n¿Qué desea hacer?\n")
