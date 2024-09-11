@@ -34,16 +34,16 @@ def cargar_datos(lineas_archivo):
             cantidad_votos,
             generos
         ])
+
     # Se transforma la lista info_peliculas en una lista de tuplas como se solicita
-    info_peliculas = [tuple(pelicula) for pelicula in info_peliculas]
+    info_peliculas = [tuple(lista) for lista in info_peliculas]
     # Se transforma peliculas_por_genero en una lista de tuplas a partir de un ciclo for que itera en el diccionario creado antes
-    for pelicula, genero in peliculas_por_genero.items():
-        peliculas_por_genero2.append((pelicula, genero))
-    # con return, se entregan las estructuras solicitadas
+    for genero, peliculas in peliculas_por_genero.items():
+        peliculas_por_genero2.append((peliculas, genero))
+        # con return, se entregan las estructuras solicitadas
     return generos_peliculas, peliculas_por_genero2, info_peliculas
 
-
-# Parte 2: Completar las consultas
+    # Parte 2: Completar las consultas
 
 
 def obtener_puntaje_y_votos(nombre_pelicula):
@@ -84,6 +84,7 @@ def filtrar_y_ordenar(genero_pelicula):
             peliculas_segun_genero.extend(peliculas)
     # Se reordena segun lo solicitado
     peliculas_segun_genero = sorted(peliculas_segun_genero, reverse=True)
+
     # Devuelve la lista generada
     return peliculas_segun_genero
 
